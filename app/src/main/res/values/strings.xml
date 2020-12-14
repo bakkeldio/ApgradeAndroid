@@ -34,4 +34,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="begin_test_question">Вы хотите начать тест?</string>
     <string name="begin_test_warning">После начала теста у вас не будет возможности вернуться.</string>
+    <string name="about_apgrade">About Apgrade</string>
+    <string name="password_again">password again</string>
+    <string name="passwordHint">password</string>
+    <string name="usernameRegistration">username</string>
+    <string name="exit">Выйти</string>
+    <string name="email">email</string>
 </resources>

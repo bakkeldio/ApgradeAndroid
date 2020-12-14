@@ -7,8 +7,6 @@ import android.view.View
 import io.flaterlab.tests.R
 import io.flaterlab.tests.data.UserData
 import io.flaterlab.tests.ui.login.LoginActivity
-import io.flaterlab.tests.ui.main.MainActivity
-import io.flaterlab.tests.ui.signup.SignupActivity
 import kotlinx.android.synthetic.main.activity_greeting.*
 
 class GreetingActivity : AppCompatActivity() {
@@ -17,34 +15,29 @@ class GreetingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_greeting)
         val data = UserData(this)
-        Thread{
+        Thread {
             Thread.sleep(1000)
-            if(data.getToken().isNullOrEmpty()){
-                signup.visibility = View.VISIBLE
-                login.visibility = View.VISIBLE
-                progressBar.visibility = View.GONE
-                loading_text.visibility = View.GONE
-            }else{
-                startActivity(Intent(this, ApgradeMainActivity::class.java))
-                Thread.sleep(1000)
-                finish()
-            }
-        }.start()
+           // if (data.getToken().isNullOrEmpty()) {
+                nextActivity.visibility = View.VISIBLE
 
-        login.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finishWithDelay()
-        }
-        signup.setOnClickListener {
-            startActivity(Intent(this, SignupActivity::class.java))
-            finishWithDelay()
+
+            //startActivity(Intent(this, ApgradeMainActivity::class.java))
+            //Thread.sleep(1000)
+            //finish()
+
+        }.start()
+        nextActivity.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
-
+/*
     private fun finishWithDelay(){
         Thread{
             Thread.sleep(1000)
             finish()
         }.start()
     }
+
+ */
 }

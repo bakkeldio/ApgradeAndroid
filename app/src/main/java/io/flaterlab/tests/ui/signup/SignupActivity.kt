@@ -12,6 +12,7 @@ import io.flaterlab.tests.data.api.APIManager
 import io.flaterlab.tests.data.model.SignUpData
 import io.flaterlab.tests.dialogs.AlertDialog
 import io.flaterlab.tests.ui.GreetingActivity
+import io.flaterlab.tests.ui.login.LoginActivity
 
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -41,7 +42,7 @@ class SignupActivity : AppCompatActivity() {
                     if(it.error == null){
                         userData.saveToken(it.token!!)
                         progressBar.visibility = View.GONE
-                        startActivity(Intent(this, GreetingActivity::class.java))
+                        startActivity(Intent(this, LoginActivity::class.java))
                         Thread{
                             Thread.sleep(1000)
                             finish()

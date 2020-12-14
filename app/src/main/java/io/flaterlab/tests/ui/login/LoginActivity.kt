@@ -14,6 +14,7 @@ import io.flaterlab.tests.data.api.APIManager
 import io.flaterlab.tests.data.model.LoginData
 import io.flaterlab.tests.dialogs.AlertDialog
 import io.flaterlab.tests.ui.GreetingActivity
+import io.flaterlab.tests.ui.signup.SignupActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.login_button
 import kotlinx.android.synthetic.main.activity_login.password
@@ -59,6 +60,10 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Try again", Toast.LENGTH_LONG).show()
                 }
             })
+        }
+        register.setOnClickListener {
+            val intent = Intent(this, SignupActivity::class.java)
+            startActivity(intent)
         }
     }
 }
