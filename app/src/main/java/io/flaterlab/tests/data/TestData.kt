@@ -12,7 +12,7 @@ class TestData(var context: Context){
 
     private val attemtNode = "attempt"
 
-    fun getAnswerSheets(testId: Long): AnswerSheet {
+    fun getAnswerSheets(testId: Long): AnswerSheet? {
         val myPrefs = context.getSharedPreferences(prefsNode, Context.MODE_PRIVATE)
         val listJson = myPrefs.getString(testId.toString(), "")
         return gson.fromJson(listJson, AnswerSheet::class.java)

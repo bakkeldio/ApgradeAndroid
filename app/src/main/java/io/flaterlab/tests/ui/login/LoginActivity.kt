@@ -13,6 +13,7 @@ import io.flaterlab.tests.data.UserData
 import io.flaterlab.tests.data.api.APIManager
 import io.flaterlab.tests.data.model.LoginData
 import io.flaterlab.tests.dialogs.AlertDialog
+import io.flaterlab.tests.ui.ApgradeMainActivity
 import io.flaterlab.tests.ui.GreetingActivity
 import io.flaterlab.tests.ui.signup.SignupActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_login.password
 import kotlinx.android.synthetic.main.activity_login.progressBar
 import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -34,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         userData = UserData(this)
+
         apiManager = APIManager.create(null)
 
         login_button.setOnClickListener {
@@ -46,7 +49,12 @@ class LoginActivity : AppCompatActivity() {
                     if(it.error == null){
                         userData.saveToken(it.token!!)
                         progressBar.visibility = View.GONE
-                        startActivity(Intent(this, GreetingActivity::class.java))
+                        val intent = Intent(this, ApgradeMainActivity::class.java)
+                        if (it.userDetail != null){
+                            intent.putExtra("username", it.userDetail.username)
+                            intent.putExtra("userEmail", it.userDetail.email)
+                        }
+                        startActivity(intent)
                         Thread{
                             Thread.sleep(1000)
                             finish()

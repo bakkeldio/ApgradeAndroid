@@ -48,22 +48,24 @@ class ResultFragment : Fragment() {
             var amountRightAnswers = 0
             var score = 0.toLong()
             it.questions.forEachIndexed { index: Int, question: Question ->
-                if(answerSheet.answers[index].questionId == question.id){
-                    if(answerSheet.answers[index].variant == question.right) {
-                        score += question.weight
-                        amountRightAnswers++
-                        allRights += question.weight
-                    }
-                    full += question.weight
-                }else{
-                    answerSheet.answers.forEach { answer ->
-                        if(answer.questionId == question.id){
-                            if(answerSheet.answers[index].variant == question.right) {
-                                score += question.weight
-                                amountRightAnswers++
-                                allRights += question.weight
+                if (answerSheet != null) {
+                    if (answerSheet.answers[index].questionId == question.id) {
+                        if (answerSheet.answers[index].variant == question.right) {
+                            score += question.weight
+                            amountRightAnswers++
+                            allRights += question.weight
+                        }
+                        full += question.weight
+                    } else {
+                        answerSheet.answers.forEach { answer ->
+                            if (answer.questionId == question.id) {
+                                if (answerSheet.answers[index].variant == question.right) {
+                                    score += question.weight
+                                    amountRightAnswers++
+                                    allRights += question.weight
+                                }
+                                full += question.weight
                             }
-                            full += question.weight
                         }
                     }
                 }

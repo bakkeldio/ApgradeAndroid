@@ -17,8 +17,6 @@ import io.flaterlab.tests.data.model.Test
 import io.flaterlab.tests.data.model.local.AnswerSheet
 import io.flaterlab.tests.dialogs.NextTestDialog
 import io.flaterlab.tests.ui.testing.NextButtonClicked
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_test_answers.*
 import kotlinx.android.synthetic.main.fragment_test_answers.view.*
 
 class TestAnswersFragment : Fragment() {
@@ -50,10 +48,8 @@ class TestAnswersFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_test_answers, container, false)
 
         testData = TestData(requireContext())
-
-        answerSheet = testData.getAnswerSheets(test.id)
-
-        if(answerSheet.answers.size == 0){
+        testData.deleteAnswerSheets(test.id)
+        if (testData.getAnswerSheets(test.id) == null){
             answerSheet = AnswerSheet()
             test.questions.forEach {
                 answerSheet.answers.add(Answer().apply {
@@ -61,7 +57,7 @@ class TestAnswersFragment : Fragment() {
                 })
             }
             answerSheet.testId = test.id
-            testData.saveAnswerSheets(answerSheet!!)
+            testData.saveAnswerSheets(answerSheet)
         }
 
         root.nextButton.setOnClickListener {

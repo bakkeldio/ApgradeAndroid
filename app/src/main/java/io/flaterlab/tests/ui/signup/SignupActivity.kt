@@ -35,8 +35,9 @@ class SignupActivity : AppCompatActivity() {
             signUpData.username = username.text.toString()
             signUpData.password = password.text.toString()
             signUpData.password2 = password2.text.toString()
+            userData
 
-            apiManager.signup(signUpData).observe(this, Observer {
+            apiManager.signup(signUpData).observe(this,{
 
                 if(it != null){
                     if(it.error == null){

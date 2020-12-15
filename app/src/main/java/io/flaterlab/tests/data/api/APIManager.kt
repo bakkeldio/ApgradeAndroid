@@ -23,18 +23,16 @@ class APIManager (var service: ApiService)  {
     fun paginateTest(page: Int): LiveData<PaginatedTests?> {
         val list = MutableLiveData<PaginatedTests>()
 
-        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch (Dispatchers.Main) {
             try {
-                val response = service.paginateTest(page)
-                withContext(Dispatchers.Main){
-                    list.value = response.body()
-                }
+                val response = withContext(Dispatchers.IO){service.paginateTest(page)}
+
+                list.value = response.body()
+
             }catch (e: Exception){
                 e.printStackTrace()
                 if(e is EOFException){
-                    withContext(Dispatchers.Main){
                         list.value = null
-                    }
                 }
             }
         }
@@ -44,12 +42,10 @@ class APIManager (var service: ApiService)  {
 
     fun getTest(id: Long): LiveData<Test?> {
         val list = MutableLiveData<Test>()
-        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch (Dispatchers.Main) {
             try {
-                val response = service.getTest(id)
-                withContext(Dispatchers.Main){
-                    list.value = response.body()
-                }
+                val response = withContext(Dispatchers.IO){service.getTest(id)}
+                list.value = response.body()
             }catch (e: Exception){
                 e.printStackTrace()
                 if(e is EOFException){
@@ -65,18 +61,15 @@ class APIManager (var service: ApiService)  {
     fun login(loginData: LoginData): LiveData<LoginResponse> {
         val res = MutableLiveData<LoginResponse>()
 
-        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch (Dispatchers.Main) {
             try {
-                val response = service.login(loginData.username, loginData.password)
-                withContext(Dispatchers.Main){
-                    res.value = response.body()
-                }
+                val response = withContext(Dispatchers.IO){service.login(loginData.username, loginData.password)}
+                res.value = response.body()
+
             }catch (e: Exception){
                 e.printStackTrace()
                 if(e is EOFException){
-                    withContext(Dispatchers.Main){
-                        res.value = null
-                    }
+                    res.value = null
                 }
             }
         }
@@ -86,18 +79,15 @@ class APIManager (var service: ApiService)  {
     fun signup(signUpData: SignUpData): LiveData<LoginResponse?> {
         val res = MutableLiveData<LoginResponse?>()
 
-        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch (Dispatchers.Main) {
             try {
-                val response = service.signup(signUpData.username, signUpData.password, signUpData.email, signUpData.password2)
-                withContext(Dispatchers.Main){
-                    res.value = response.body()
-                }
+                val response = withContext(Dispatchers.IO){service.signup(signUpData.username, signUpData.password, signUpData.email, signUpData.password2)}
+                res.value = response.body()
+
             }catch (e: Exception){
                 e.printStackTrace()
                 if(e is EOFException){
-                    withContext(Dispatchers.Main){
-                        res.value = null
-                    }
+                    res.value = null
                 }
             }
         }

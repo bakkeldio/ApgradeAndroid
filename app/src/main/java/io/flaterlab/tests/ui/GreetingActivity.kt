@@ -17,14 +17,14 @@ class GreetingActivity : AppCompatActivity() {
         val data = UserData(this)
         Thread {
             Thread.sleep(1000)
-           // if (data.getToken().isNullOrEmpty()) {
-                nextActivity.visibility = View.VISIBLE
-
-
-            //startActivity(Intent(this, ApgradeMainActivity::class.java))
-            //Thread.sleep(1000)
-            //finish()
-
+           if (data.getToken().isNullOrEmpty()) {
+               nextActivity.visibility = View.VISIBLE
+               //startActivity(Intent(this, ApgradeMainActivity::class.java))
+               //Thread.sleep(1000)
+               //finish()
+           }else{
+               startActivity(Intent(this, ApgradeMainActivity::class.java))
+           }
         }.start()
         nextActivity.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)

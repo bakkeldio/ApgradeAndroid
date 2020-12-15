@@ -56,9 +56,7 @@ class TestingActivity : AppCompatActivity() {
         if(id > 0){
             if(testingAttempt.testingCopy == null){
                 viewModel.api.getTestingById(id).observe(this, {
-                    tests.forEach { test->
-                        testData.deleteAnswerSheets(test.id)
-                    }
+
                     testingAttempt.tests = it.tests
                     testingAttempt.testingCopy = it.testing
                     testData.saveTestingAttempt(testingAttempt)

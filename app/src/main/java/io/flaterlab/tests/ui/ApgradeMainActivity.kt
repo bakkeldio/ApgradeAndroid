@@ -1,9 +1,8 @@
 package io.flaterlab.tests.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +13,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import io.flaterlab.tests.R
+import io.flaterlab.tests.data.UserData
+import io.flaterlab.tests.ui.login.LoginActivity
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 class ApgradeMainActivity : AppCompatActivity() {
 
@@ -35,6 +37,20 @@ class ApgradeMainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        val header = navView.getHeaderView(0)
+        if (!intent.getStringExtra("username").isNullOrBlank() && !intent.getStringExtra("userEmail").isNullOrBlank()) {
+            header.username.text = intent.getStringExtra("username")
+            header.userEmail.text = intent.getStringExtra("userEmail")
+        }
+        navView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            val data = UserData(this)
+            data.removeToken()
+            if (data.getToken() == null){
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+            true
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
