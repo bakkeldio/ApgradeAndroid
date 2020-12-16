@@ -50,7 +50,9 @@ class LoginActivity : AppCompatActivity() {
                         userData.saveToken(it.token!!)
                         progressBar.visibility = View.GONE
                         val intent = Intent(this, ApgradeMainActivity::class.java)
+
                         if (it.userDetail != null){
+                            userData.saveUser(it.userDetail.email)
                             intent.putExtra("username", it.userDetail.username)
                             intent.putExtra("userEmail", it.userDetail.email)
                         }

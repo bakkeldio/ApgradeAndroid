@@ -40,4 +40,6 @@
     <string name="usernameRegistration">username</string>
     <string name="exit">Выйти</string>
     <string name="email">email</string>
+    <string name="score">Score :</string>
+    <string name="username_">Username:</string>
 </resources>

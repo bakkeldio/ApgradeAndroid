@@ -14,15 +14,18 @@ import io.flaterlab.tests.data.model.Attempt
 import io.flaterlab.tests.data.model.Question
 import io.flaterlab.tests.data.model.Test
 import io.flaterlab.tests.data.model.local.AnswerSheet
+import io.flaterlab.tests.ui.results.ResultsPreference
+import io.flaterlab.tests.ui.results.UserScore
 import kotlinx.android.synthetic.main.result_fragment.view.*
 
 class ResultFragment : Fragment() {
 
     companion object {
-        fun newInstance(tests: ArrayList<Test>, nextButtonClicked: NextButtonClicked) = ResultFragment().apply {
-            this.tests = tests
-            this.nextButtonClicked = nextButtonClicked
-        }
+        fun newInstance(tests: ArrayList<Test>, nextButtonClicked: NextButtonClicked) =
+            ResultFragment().apply {
+                this.tests = tests
+                this.nextButtonClicked = nextButtonClicked
+            }
     }
 
     private lateinit var tests: ArrayList<Test>
@@ -31,8 +34,10 @@ class ResultFragment : Fragment() {
 
     private lateinit var viewModel: ResultViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.result_fragment, container, false)
         val testData = TestData(requireContext())
 
@@ -74,6 +79,25 @@ class ResultFragment : Fragment() {
 
         }
         resultText += "Общий балл: $allRights из $full"
+        val sp = ResultsPreference(requireContext())
+        var userScore: UserScore? = null
+
+        if (sp.getUser() != null) {
+            userScore = UserScore(sp.getUser()!!, "$allRights out of $full")
+        }
+
+        if (userScore != null) {
+
+            if (sp.getList(userScore.userEmail) == null) {
+                sp.changeList(userScore.userEmail, listOf(userScore))
+            } else {
+                val mutableList = sp.getList(userScore.userEmail)
+                mutableList?.add(userScore)
+
+                sp.changeList(userScore.userEmail, mutableList!!)
+            }
+        }
+
         root.results.text = resultText
         root.ok_button.setOnClickListener {
             testData.deleteTestingAttempt()
@@ -83,9 +107,10 @@ class ResultFragment : Fragment() {
         // sending result to server
         val userData = UserData(requireContext())
         val api = APIManager.create(userData.getToken())
-        api.addScore(testData.getTestingAttempt()!!.testingCopy!!.id, allRights).observe(requireActivity(), {
-            root.ok_button.visibility = View.VISIBLE
-        })
+        api.addScore(testData.getTestingAttempt()!!.testingCopy!!.id, allRights)
+            .observe(requireActivity(), {
+                root.ok_button.visibility = View.VISIBLE
+            })
 
         return root
     }

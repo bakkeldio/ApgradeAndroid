@@ -23,9 +23,6 @@ class UserData(var context: Context) {
         return myPrefs.getString(tokenNode, null)
     }
 
-    var userDetail: SignUpData?
-        get() = Gson().fromJson(myPrefs.getString("User", ""), SignUpData::class.java)
-        set(value) = myPrefs.edit().putString("User", Gson().toJson(value)).apply()
 
     fun saveToken(token: String) {
         myPrefs.edit().putString(tokenNode, token).apply()
@@ -93,6 +90,9 @@ class UserData(var context: Context) {
             tests.add(test)
         }
         saveTests(tests)
+    }
+    fun saveUser(userEmail : String){
+        myPrefs.edit().putString("userEmail", userEmail).apply()
     }
 
     fun deleteTest(testId: Long) {
